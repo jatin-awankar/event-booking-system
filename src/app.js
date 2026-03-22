@@ -4,7 +4,8 @@ import morgan from "morgan";
 
 import eventRoutes from "./modules/event/event.routes.js";
 import bookingRoutes from "./modules/booking/booking.routes.js";
-
+import userRoutes from "./modules/user/user.routes.js";
+import attendanceRoutes from "./modules/attendance/attendance.routes.js";
 const app = express();
 
 // middlewares
@@ -14,6 +15,8 @@ app.use(morgan("dev"));
 
 app.use("/events", eventRoutes);
 app.use("/bookings", bookingRoutes);
+app.use("/users", userRoutes);
+app.use("/events", attendanceRoutes);
 
 // check
 app.get("/", (req, res) => {
