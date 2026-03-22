@@ -3,6 +3,7 @@
 ## 🚀 Overview
 
 Mini Event Management System where users can browse events and book tickets.
+[Live](https://event-booking-system-hwj8.onrender.com/)
 
 ## 🛠 Tech Stack
 
