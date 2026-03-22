@@ -1,0 +1,164 @@
+{
+  "info": {
+    "name": "Event Booking API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Mini Event Booking System API with transaction-safe booking and attendance tracking."
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000"
+    }
+  ],
+  "item": [
+    {
+      "name": "Events",
+      "item": [
+        {
+          "name": "Get All Events",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/events"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "body": "{\"success\":true,\"data\":[{\"id\":1,\"title\":\"Music Concert\",\"remaining_tickets\":100}]}"
+            }
+          ]
+        },
+        {
+          "name": "Create Event",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Hackathon\",\n  \"description\": \"24 hour coding event\",\n  \"event_date\": \"2026-04-10 10:00:00\",\n  \"total_capacity\": 200\n}"
+            },
+            "url": "{{base_url}}/events"
+          },
+          "response": [
+            {
+              "name": "Created",
+              "status": "Created",
+              "code": 201,
+              "body": "{\"success\":true,\"message\":\"Event created successfully\"}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bookings",
+      "item": [
+        {
+          "name": "Create Booking",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": 1,\n  \"event_id\": 1\n}"
+            },
+            "url": "{{base_url}}/bookings"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "Created",
+              "code": 201,
+              "body": "{\"success\":true,\"data\":{\"booking_code\":\"uuid-value\"}}"
+            },
+            {
+              "name": "No Tickets Available",
+              "status": "Bad Request",
+              "code": 400,
+              "body": "{\"success\":false,\"message\":\"No tickets available\"}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get User Bookings",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/users/1/bookings"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "body": "{\"success\":true,\"data\":[{\"booking_code\":\"uuid\",\"title\":\"Hackathon\"}]}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Attendance",
+      "item": [
+        {
+          "name": "Mark Attendance",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"booking_code\": \"uuid-value\"\n}"
+            },
+            "url": "{{base_url}}/events/1/attendance"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "body": "{\"success\":true,\"data\":{\"message\":\"Attendance marked successfully\",\"tickets\":1}}"
+            },
+            {
+              "name": "Duplicate Attendance",
+              "status": "Bad Request",
+              "code": 400,
+              "body": "{\"success\":false,\"message\":\"Attendance already marked\"}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Docs",
+      "item": [
+        {
+          "name": "Swagger Docs",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/docs"
+          }
+        }
+      ]
+    }
+  ]
+}
